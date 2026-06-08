@@ -1,0 +1,1 @@
+# powt-rka-przed-egzaminem-zawodowym
