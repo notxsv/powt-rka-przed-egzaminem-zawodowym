@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Powtórka z HTML i CSS przed egzaminem zawodowym. Najważniejsze informacje, przykłady i wskazówki dotyczące HTML5, CSS3 oraz grafiki SVG.">
+<meta name="keywords" content="HTML, CSS, SVG, egzamin zawodowy, powtórka, web development, frontend">
+<meta name="author" content="Ksawery Wilczyński">
+<title>Powtórka css-html</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  
+
+  :root {
+    --bg:       #0F0F0E;
+    --surface:  #1A1A18;
+    --border:   #2E2E2A;
+    --muted:    #6B6B64;
+    --body:     #C8C8BC;
+    --heading:  #F0EFE6;
+    --accent1:  #E8A020;
+    --accent2:  #4BB8A0;
+    --accent3:  #C94F4F;
+    --code-bg:  #141412;
+    --radius:   6px;
+    --nav-w:    260px;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --font-disp: 'DM Serif Display', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--body);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+  }
+
+  
+  #sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--nav-w);
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    transition: transform .3s ease;
+  }
+
+  #sidebar::-webkit-scrollbar { width: 4px; }
+  #sidebar::-webkit-scrollbar-track { background: transparent; }
+  #sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .sidebar-logo {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo .logo-mark {
+    font-family: var(--font-disp);
+    font-size: 20px;
+    color: var(--heading);
+    letter-spacing: .02em;
+  }
+  .sidebar-logo .logo-mark span { color: var(--accent1); }
+  .sidebar-logo p {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .nav-section {
+    padding: 16px 0 0;
+  }
+  .nav-section + .nav-section {
+    border-top: 1px solid var(--border);
+  }
+
+  .nav-group-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 4px 20px 8px;
+  }
+
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--body);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color .15s, border-color .15s, background .15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  nav a .nav-icon {
+    width: 16px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  nav a:hover {
+    color: var(--heading);
+    background: rgba(255,255,255,.04);
+    border-left-color: var(--border);
+  }
+  nav a.active {
+    color: var(--accent1);
+    border-left-color: var(--accent1);
+    background: rgba(232,160,32,.06);
+  }
+
+  
+  #main {
+    margin-left: var(--nav-w);
+    flex: 1;
+    max-width: 100%;
+    padding: 48px 48px 80px;
+  }
+
+  
+  .hero {
+    background: linear-gradient(135deg, #1e1c16 0%, #1a1a18 60%, #121614 100%);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 52px 48px;
+    margin-bottom: 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '</>';
+    position: absolute;
+    right: 40px; bottom: -10px;
+    font-family: var(--font-mono);
+    font-size: 120px;
+    color: rgba(232,160,32,.05);
+    line-height: 1;
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: var(--font-disp);
+    font-size: clamp(28px, 4vw, 46px);
+    color: var(--heading);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .hero h1 em { color: var(--accent1); font-style: normal; }
+  .hero p { color: var(--body); max-width: 560px; font-size: 15px; }
+  .hero-badges { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+  .badge-css { background: rgba(75,184,160,.12); color: var(--accent2); border: 1px solid rgba(75,184,160,.25); }
+  .badge-html { background: rgba(232,160,32,.12); color: var(--accent1); border: 1px solid rgba(232,160,32,.25); }
+  .badge-svg { background: rgba(201,79,79,.12); color: var(--accent3); border: 1px solid rgba(201,79,79,.25); }
+
+  
+  .section {
+    margin-bottom: 64px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .icon-css  { background: rgba(75,184,160,.15); color: var(--accent2); }
+  .icon-html { background: rgba(232,160,32,.15); color: var(--accent1); }
+  .icon-svg  { background: rgba(201,79,79,.15);  color: var(--accent3); }
+
+  .section-header h2 {
+    font-family: var(--font-disp);
+    font-size: 22px;
+    color: var(--heading);
+  }
+  .section-tag {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+
+  .section > p, .card > p { color: var(--body); margin-bottom: 12px; }
+
+  
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: border-color .2s;
+  }
+  .card:hover { border-color: var(--accent1); }
+  .card h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--heading);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card h3::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent1);
+    flex-shrink: 0;
+  }
+  .card h3.teal::before { background: var(--accent2); }
+  .card h3.red::before  { background: var(--accent3); }
+
+  
+  code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    overflow-x: auto;
+    margin: 10px 0;
+    position: relative;
+  }
+  .code-block pre { color: var(--body); white-space: pre; }
+  .code-block .kw  { color: var(--accent1); }
+  .code-block .val { color: var(--accent2); }
+  .code-block .sel { color: #a78bfa; }
+  .code-block .cmt { color: var(--muted); font-style: italic; }
+  .code-block .tag { color: var(--accent3); }
+  .code-block .attr { color: #f59e0b; }
+  .code-block .str { color: var(--accent2); }
+
+  .code-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  
+  :not(pre) > code {
+    background: rgba(255,255,255,.07);
+    border: 1px solid var(--border);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent1);
+    font-size: 12px;
+  }
+
+  
+  .ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 13px;
+  }
+  .ref-table th {
+    background: var(--surface);
+    color: var(--heading);
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--border);
+  }
+  .ref-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .ref-table tr:hover td { background: rgba(255,255,255,.02); }
+  .ref-table td:first-child { color: var(--accent1); font-family: var(--font-mono); font-size: 12px; }
+  .ref-table td:last-child  { color: var(--muted); font-size: 12px; }
+
+  
+  .demo-area {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 12px 0;
+  }
+
+  
+  .box-model-demo {
+    display: inline-block;
+    position: relative;
+    font-size: 11px;
+    font-family: var(--font-mono);
+  }
+  .bm-margin   { background: rgba(201,79,79,.15);  border: 2px dashed rgba(201,79,79,.4);  padding: 14px; color: var(--accent3); }
+  .bm-border   { background: rgba(232,160,32,.1);  border: 4px solid rgba(232,160,32,.5);  padding: 14px; color: var(--accent1); }
+  .bm-padding  { background: rgba(75,184,160,.1);  border: 2px dashed rgba(75,184,160,.4); padding: 14px; color: var(--accent2); }
+  .bm-content  { background: rgba(255,255,255,.06); border: 1px solid var(--border); padding: 14px; text-align: center; color: var(--heading); min-width: 80px; }
+
+  
+  .swatches { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .swatch { display: flex; align-items: center; gap: 8px; }
+  .swatch-dot { width: 28px; height: 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,.1); }
+  .swatch span { font-size: 11px; font-family: var(--font-mono); color: var(--muted); }
+
+  
+  .svg-demo { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; padding: 16px 0; }
+  .svg-demo svg { transition: transform .2s; }
+  .svg-demo svg:hover { transform: scale(1.1); }
+
+  
+  @keyframes spin   { to { transform: rotate(360deg); } }
+  @keyframes pulse  { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.6; transform:scale(.9); } }
+  @keyframes slide  { 0%,100% { transform: translateX(0); } 50% { transform: translateX(60px); } }
+  @keyframes bounce { 0%,100% { transform:translateY(0); } 40% { transform:translateY(-18px); } 60%{ transform:translateY(-8px);} }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  .anim-demos { display: flex; gap: 24px; flex-wrap: wrap; align-items: center; }
+  .anim-box {
+    width: 48px; height: 48px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: var(--heading); font-family: var(--font-mono);
+    flex-shrink: 0;
+  }
+  .anim-label { font-size: 10px; color: var(--muted); margin-top: 4px; text-align: center; }
+  .anim-wrap  { display: flex; flex-direction: column; align-items: center; }
+  .a-spin   { background: rgba(232,160,32,.2); border: 1px solid rgba(232,160,32,.4); animation: spin 2s linear infinite; }
+  .a-pulse  { background: rgba(75,184,160,.2); border: 1px solid rgba(75,184,160,.4); animation: pulse 1.5s ease-in-out infinite; }
+  .a-bounce { background: rgba(201,79,79,.2);  border: 1px solid rgba(201,79,79,.4);  animation: bounce 1.2s ease infinite; }
+
+  .slide-track { width: 160px; height: 48px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; position: relative; background: rgba(255,255,255,.03); }
+  .slide-ball { width: 40px; height: 40px; border-radius: 6px; background: rgba(160,132,232,.25); border: 1px solid rgba(160,132,232,.5); margin: 4px; animation: slide 2s ease-in-out infinite; }
+
+  
+  .grad-demos { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 10px 0; }
+  .grad-swatch { height: 60px; border-radius: var(--radius); border: 1px solid var(--border); }
+  .grad-label  { font-size: 10px; color: var(--muted); font-family: var(--font-mono); margin-top: 4px; }
+
+  
+  .pos-demo { position: relative; height: 100px; background: rgba(255,255,255,.02); border: 1px dashed var(--border); border-radius: var(--radius); }
+  .pos-static   { position: static;   background: rgba(232,160,32,.2); padding: 4px 8px; font-size: 11px; border-radius: 3px; font-family: var(--font-mono); color: var(--accent1); display: inline-block; margin: 8px; }
+  .pos-relative { position: relative; top: 10px; left: 20px; background: rgba(75,184,160,.2); padding: 4px 8px; font-size: 11px; border-radius: 3px; font-family: var(--font-mono); color: var(--accent2); display: inline-block; }
+  .pos-absolute { position: absolute; bottom: 8px; right: 12px; background: rgba(201,79,79,.2); padding: 4px 8px; font-size: 11px; border-radius: 3px; font-family: var(--font-mono); color: var(--accent3); }
+
+  
+  .disp-item { display: inline-block; background: rgba(75,184,160,.1); border: 1px solid rgba(75,184,160,.3); padding: 4px 10px; margin: 3px; border-radius: 3px; font-family: var(--font-mono); font-size: 12px; color: var(--accent2); }
+
+  
+  .note {
+    background: rgba(232,160,32,.07);
+    border-left: 3px solid var(--accent1);
+    padding: 10px 14px;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 13px;
+    color: var(--body);
+    margin: 12px 0;
+  }
+  .note strong { color: var(--accent1); }
+
+  
+  #menu-toggle {
+    display: none;
+    position: fixed;
+    top: 14px; right: 14px;
+    z-index: 200;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--heading);
+    width: 38px; height: 38px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 18px;
+    align-items: center;
+    justify-content: center;
+  }
+  #sidebar-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 90;
+  }
+
+  
+  .input-demo { display: flex; flex-direction: column; gap: 10px; max-width: 320px; }
+  .input-demo input, .input-demo select, .input-demo textarea {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    color: var(--body);
+    padding: 8px 12px;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    outline: none;
+    transition: border-color .2s;
+    width: 100%;
+  }
+  .input-demo input:focus, .input-demo select:focus, .input-demo textarea:focus {
+    border-color: var(--accent1);
+  }
+  .input-demo label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+
+  
+  .pseudo-list li {
+    padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--border);
+    transition: color .15s;
+  }
+  .pseudo-list li:first-child { color: var(--accent2); font-weight: 600; }
+  .pseudo-list li:last-child  { color: var(--accent3); font-size: 12px; font-style: italic; border-bottom: none; }
+  .pseudo-list li:hover { color: var(--accent1); }
+  .pseudo-list li::marker { color: var(--muted); }
+
+  
+  @media (max-width: 860px) {
+    :root { --nav-w: 240px; }
+    #main { padding: 24px 20px 60px; }
+    .hero { padding: 32px 24px; }
+    .cards { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    #sidebar { transform: translateX(-100%); }
+    #sidebar.open { transform: translateX(0); }
+    #sidebar-overlay.open { display: block; }
+    #main { margin-left: 0; padding: 60px 16px 60px; }
+    #menu-toggle { display: flex; }
+    .hero::before { display: none; }
+    .grad-demos { grid-template-columns: repeat(2, 1fr); }
+    .anim-demos { gap: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<button id="menu-toggle" aria-label="Menu" onclick="toggleSidebar()">☰</button>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">POWT<span>ÓRKA</span></div>
+    <p>HTML &amp; CSS — Ksawery Wilczyński</p>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-group-title">CSS</div>
+    <nav>
+      <a href="#svg">         <span class="nav-icon">◈</span> Grafika SVG</a>
+      <a href="#css-info">    <span class="nav-icon">ℹ</span> Główne informacje</a>
+      <a href="#box-model">   <span class="nav-icon">□</span> Model pudełkowy</a>
+      <a href="#colors">      <span class="nav-icon">◉</span> Kolory i tła</a>
+      <a href="#units">       <span class="nav-icon">↔</span> Jednostki CSS</a>
+      <a href="#text">        <span class="nav-icon">T</span> Text</a>
+      <a href="#font">        <span class="nav-icon">A</span> Font</a>
+      <a href="#lists-css">   <span class="nav-icon">≡</span> Listy (CSS)</a>
+      <a href="#display">     <span class="nav-icon">▦</span> Display</a>
+      <a href="#position">    <span class="nav-icon">✛</span> Pozycjonowanie</a>
+      <a href="#other-css">   <span class="nav-icon">⊞</span> Inne</a>
+      <a href="#selectors">   <span class="nav-icon">#</span> Selektory</a>
+      <a href="#pseudo">      <span class="nav-icon">:</span> Pseudo klasy i elementy</a>
+      <a href="#nav-css">     <span class="nav-icon">⊟</span> Nawigacja</a>
+      <a href="#animations">  <span class="nav-icon">✦</span> Animacje</a>
+      <a href="#responsive">  <span class="nav-icon">⊡</span> Responsywność</a>
+      <a href="#gradients">   <span class="nav-icon">∿</span> Gradienty</a>
+    </nav>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-group-title">HTML</div>
+    <nav>
+      <a href="#html-basics">   <span class="nav-icon">‹›</span> Podstawy HTML</a>
+      <a href="#headings">      <span class="nav-icon">H</span> Nagłówki</a>
+      <a href="#img-anchor">    <span class="nav-icon">⌘</span> Zdjęcia i Kotwice</a>
+      <a href="#text-transform"><span class="nav-icon">Aa</span> Przekształcenia tekstu</a>
+      <a href="#quotes">        <span class="nav-icon">"</span> Cytaty</a>
+      <a href="#tables">        <span class="nav-icon">⊞</span> Tabele</a>
+      <a href="#lists-html">    <span class="nav-icon">•</span> Listy</a>
+      <a href="#definitions">   <span class="nav-icon">Δ</span> Definicje</a>
+      <a href="#div">           <span class="nav-icon">[ ]</span> Div</a>
+      <a href="#span">          <span class="nav-icon">〈〉</span> Span</a>
+      <a href="#classes-id">    <span class="nav-icon">.#</span> Klasy i ID</a>
+      <a href="#layout">        <span class="nav-icon">⊟</span> Układ strony</a>
+      <a href="#figcaption">    <span class="nav-icon">⎘</span> Figurecaption</a>
+      <a href="#entities">      <span class="nav-icon">&amp;</span> Znaczniki i Znaki specjalne</a>
+      <a href="#style-tag">     <span class="nav-icon">⬡</span> Style</a>
+      <a href="#inputs">        <span class="nav-icon">▭</span> Inputy</a>
+      <a href="#image-maps">    <span class="nav-icon">◫</span> Mapy odsyłaczy</a>
+    </nav>
+  </div>
+</aside>
+
+<main id="main">
+
+  
+  <div class="hero">
+    <h1>HTML &amp; CSS<br><em>Materiał do powtórki przed egzaminem zawodowym.</em></h1>
+    <div class="hero-badges">
+      <span class="badge badge-css">CSS3</span>
+      <span class="badge badge-html">HTML5</span>
+      <span class="badge badge-svg">SVG</span>
+    </div>
+  </div>
+
+  
+  <section class="section" id="svg">
+    <div class="section-header">
+      <div class="section-icon icon-svg">◈</div>
+      <h2>Grafika SVG</h2>
+      <span class="section-tag">SVG</span>
+    </div>
+    <p>SVG (Scalable Vector Graphics) to format grafiki wektorowej oparty na XML, który skaluje się bez utraty jakości.</p>
+    <div class="svg-demo demo-area">
+      
+      <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" title="Koło">
+        <circle cx="30" cy="30" r="26" fill="none" stroke="#4BB8A0" stroke-width="3"/>
+        <circle cx="30" cy="30" r="10" fill="#4BB8A0" opacity=".5"/>
+      </svg>
+      
+      <svg width="70" height="60" viewBox="0 0 70 60" xmlns="http://www.w3.org/2000/svg" title="Prostokąt">
+        <rect x="5" y="10" width="60" height="40" rx="6" fill="none" stroke="#E8A020" stroke-width="3" stroke-dasharray="6 3"/>
+        <rect x="15" y="20" width="40" height="20" rx="3" fill="#E8A020" opacity=".3"/>
+      </svg>
+      
+      <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" title="Gwiazda">
+        <polygon points="30,4 37,22 56,22 41,34 47,52 30,41 13,52 19,34 4,22 23,22" fill="#C94F4F" opacity=".7"/>
+      </svg>
+      
+      <svg width="80" height="60" viewBox="0 0 80 60" xmlns="http://www.w3.org/2000/svg" title="Linia ze strzałką">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a78bfa"/>
+          </marker>
+        </defs>
+        <line x1="8" y1="30" x2="68" y2="30" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arrow)"/>
+        <text x="10" y="20" font-size="9" fill="#6B6B64" font-family="monospace">line + marker</text>
+      </svg>
+      
+      <svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg" title="Tekst na ścieżce">
+        <defs>
+          <path id="curve" d="M10,50 Q60,5 110,50"/>
+        </defs>
+        <path d="M10,50 Q60,5 110,50" fill="none" stroke="#2E2E2A" stroke-width="1"/>
+        <text font-size="9" fill="#4BB8A0" font-family="monospace">
+          <textPath href="#curve">tekst na ścieżce</textPath>
+        </text>
+      </svg>
+    </div>
+    <div class="code-block">
+      <div class="code-label">SVG — przykłady</div>
+      <pre><span class="tag">&lt;svg</span> <span class="attr">width</span>=<span class="str">"100"</span> <span class="attr">height</span>=<span class="str">"100"</span> <span class="attr">viewBox</span>=<span class="str">"0 0 100 100"</span>
+     <span class="attr">xmlns</span>=<span class="str">"http://www.w3.org/2000/svg"</span><span class="tag">&gt;</span>
+
+  <span class="cmt">Koło</span>
+  <span class="tag">&lt;circle</span> <span class="attr">cx</span>=<span class="str">"50"</span> <span class="attr">cy</span>=<span class="str">"50"</span> <span class="attr">r</span>=<span class="str">"40"</span>
+           <span class="attr">fill</span>=<span class="str">"#4BB8A0"</span> <span class="attr">stroke</span>=<span class="str">"white"</span> <span class="attr">stroke-width</span>=<span class="str">"2"</span><span class="tag">/&gt;</span>
+
+  <span class="cmt">Prostokąt</span>
+  <span class="tag">&lt;rect</span> <span class="attr">x</span>=<span class="str">"10"</span> <span class="attr">y</span>=<span class="str">"10"</span> <span class="attr">width</span>=<span class="str">"80"</span> <span class="attr">height</span>=<span class="str">"50"</span>
+        <span class="attr">rx</span>=<span class="str">"8"</span> <span class="attr">fill</span>=<span class="str">"#E8A020"</span><span class="tag">/&gt;</span>
+
+  <span class="cmt">Linia</span>
+  <span class="tag">&lt;line</span> <span class="attr">x1</span>=<span class="str">"0"</span> <span class="attr">y1</span>=<span class="str">"50"</span> <span class="attr">x2</span>=<span class="str">"100"</span> <span class="attr">y2</span>=<span class="str">"50"</span>
+        <span class="attr">stroke</span>=<span class="str">"#C94F4F"</span> <span class="attr">stroke-width</span>=<span class="str">"2"</span><span class="tag">/&gt;</span>
+
+  <span class="cmt">Tekst</span>
+  <span class="tag">&lt;text</span> <span class="attr">x</span>=<span class="str">"50"</span> <span class="attr">y</span>=<span class="str">"55"</span> <span class="attr">text-anchor</span>=<span class="str">"middle"</span>
+        <span class="attr">font-size</span>=<span class="str">"12"</span> <span class="attr">fill</span>=<span class="str">"white"</span><span class="tag">&gt;</span>SVG<span class="tag">&lt;/text&gt;</span>
+
+<span class="tag">&lt;/svg&gt;</span></pre>
+    </div>
+    <table class="ref-table">
+      <tr><th>Element</th><th>Opis</th></tr>
+      <tr><td>&lt;circle&gt;</td><td>Koło — atrybuty: cx, cy, r</td></tr>
+      <tr><td>&lt;rect&gt;</td><td>Prostokąt — x, y, width, height, rx (zaokrąglenie)</td></tr>
+      <tr><td>&lt;line&gt;</td><td>Linia — x1, y1, x2, y2</td></tr>
+      <tr><td>&lt;polygon&gt;</td><td>Wielokąt — points="x1,y1 x2,y2 …"</td></tr>
+      <tr><td>&lt;path&gt;</td><td>Dowolna ścieżka — atrybut d (M, L, C, Q, Z…)</td></tr>
+      <tr><td>&lt;text&gt;</td><td>Tekst w SVG — x, y, font-size, fill</td></tr>
+      <tr><td>&lt;defs&gt;</td><td>Definicje: gradienty, markery, filtry</td></tr>
+    </table>
+  </section>
+
+  
+  <section class="section" id="css-info">
+    <div class="section-header">
+      <div class="section-icon icon-css">ℹ</div>
+      <h2>CSS — Główne informacje</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <p>CSS (Cascading Style Sheets) to język arkuszy stylów opisujący wygląd dokumentów HTML.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Sposoby dołączania CSS</h3>
+        <div class="code-block"><pre><span class="cmt">Zewnętrzny plik</span>
+<span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span>
+
+<span class="cmt">Wewnętrzny blok</span>
+<span class="tag">&lt;style&gt;</span> <span class="sel">p</span> { <span class="kw">color</span>: <span class="val">red</span>; } <span class="tag">&lt;/style&gt;</span>
+
+<span class="cmt">Inline</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="str">"color:red"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/p&gt;</span></pre></div>
+      </div>
+      <div class="card">
+        <h3>Specyficzność selektorów</h3>
+        <table class="ref-table">
+          <tr><th>Selektor</th><th>Waga</th></tr>
+          <tr><td>!important</td><td>∞</td></tr>
+          <tr><td>style=""</td><td>1000</td></tr>
+          <tr><td>#id</td><td>100</td></tr>
+          <tr><td>.class, :hover</td><td>10</td></tr>
+          <tr><td>tag, ::before</td><td>1</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="box-model">
+    <div class="section-header">
+      <div class="section-icon icon-css">□</div>
+      <h2>Model pudełkowy</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <p>Każdy element HTML jest prostokątnym pudełkiem złożonym z czterech warstw.</p>
+    <div class="demo-area" style="display:inline-block;">
+      <div class="bm-margin">margin
+        <div class="bm-border">border
+          <div class="bm-padding">padding
+            <div class="bm-content">content</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:16px;">
+      <pre><span class="sel">.box</span> {
+  <span class="kw">width</span>: <span class="val">200px</span>;
+  <span class="kw">height</span>: <span class="val">100px</span>;
+  <span class="kw">padding</span>: <span class="val">16px</span>;
+  <span class="kw">border</span>: <span class="val">2px solid #E8A020</span>;
+  <span class="kw">margin</span>: <span class="val">24px auto</span>;
+  <span class="kw">box-sizing</span>: <span class="val">border-box</span>;
+}</pre>
+    </div>
+    <table class="ref-table">
+      <tr><th>Właściwość</th><th>Skrót / wartości</th></tr>
+      <tr><td>margin</td><td>top right bottom left | auto | 0</td></tr>
+      <tr><td>padding</td><td>top right bottom left</td></tr>
+      <tr><td>border</td><td>width style color</td></tr>
+      <tr><td>outline</td><td>jak border, ale poza pudełkiem</td></tr>
+      <tr><td>box-sizing</td><td>content-box | border-box</td></tr>
+    </table>
+  </section>
+
+  
+  <section class="section" id="colors">
+    <div class="section-header">
+      <div class="section-icon icon-css">◉</div>
+      <h2>Kolory i tła</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="swatches">
+      <div class="swatch"><div class="swatch-dot" style="background:#E8A020"></div><span>#E8A020 hex</span></div>
+      <div class="swatch"><div class="swatch-dot" style="background:rgb(75,184,160)"></div><span>rgb(75,184,160)</span></div>
+      <div class="swatch"><div class="swatch-dot" style="background:hsl(166,44%,51%)"></div><span>hsl(166,44%,51%)</span></div>
+      <div class="swatch"><div class="swatch-dot" style="background:rgba(201,79,79,.5)"></div><span>rgba(…,.5)</span></div>
+    </div>
+    <div class="code-block">
+      <pre><span class="sel">div</span> {
+  <span class="kw">color</span>: <span class="val">#F0EFE6</span>;
+  <span class="kw">background-color</span>: <span class="val">rgba(26,26,24,.9)</span>;
+  <span class="kw">background-image</span>: <span class="val">url('bg.jpg')</span>;
+  <span class="kw">background-size</span>: <span class="val">cover</span>;
+  <span class="kw">background-position</span>: <span class="val">center</span>;
+  <span class="kw">background-repeat</span>: <span class="val">no-repeat</span>;
+  <span class="kw">background-attachment</span>: <span class="val">fixed</span>;
+  <span class="kw">opacity</span>: <span class="val">0.8</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="units">
+    <div class="section-header">
+      <div class="section-icon icon-css">↔</div>
+      <h2>Jednostki CSS</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <table class="ref-table">
+      <tr><th>Jednostka</th><th>Opis</th></tr>
+      <tr><td>px</td><td>Piksele (absolutne)</td></tr>
+      <tr><td>em</td><td>Względem font-size rodzica</td></tr>
+      <tr><td>rem</td><td>Względem font-size :root</td></tr>
+      <tr><td>%</td><td>Procent rodzica</td></tr>
+      <tr><td>vw / vh</td><td>1% szerokości / wysokości okna</td></tr>
+      <tr><td>vmin / vmax</td><td>Mniejszy / większy z vw i vh</td></tr>
+      <tr><td>ch</td><td>Szerokość znaku "0" danego fontu</td></tr>
+      <tr><td>fr</td><td>Fraction unit (CSS Grid)</td></tr>
+      <tr><td>clamp(min, val, max)</td><td>Wartość ograniczona przedziałem</td></tr>
+    </table>
+  </section>
+
+  
+  <section class="section" id="text">
+    <div class="section-header">
+      <div class="section-icon icon-css">T</div>
+      <h2>Text</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="sel">p</span> {
+  <span class="kw">color</span>: <span class="val">#C8C8BC</span>;
+  <span class="kw">text-align</span>: <span class="val">left</span>;
+  <span class="kw">text-decoration</span>: <span class="val">underline</span>;
+  <span class="kw">text-transform</span>: <span class="val">uppercase</span>;
+  <span class="kw">text-shadow</span>: <span class="val">2px 2px 4px rgba(0,0,0,.5)</span>;
+  <span class="kw">letter-spacing</span>: <span class="val">0.05em</span>;
+  <span class="kw">line-height</span>: <span class="val">1.7</span>;
+  <span class="kw">word-spacing</span>: <span class="val">2px</span>;
+  <span class="kw">white-space</span>: <span class="val">nowrap</span>;
+  <span class="kw">overflow-wrap</span>: <span class="val">break-word</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="font">
+    <div class="section-header">
+      <div class="section-icon icon-css">A</div>
+      <h2>Font</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="code-block">
+      <pre>
+<span class="kw">@import</span> <span class="val">url('https://fonts.googleapis.com/css2?family=DM+Sans')</span>;
+
+<span class="sel">body</span> {
+  <span class="kw">font-family</span>: <span class="val">'DM Sans', sans-serif</span>;
+  <span class="kw">font-size</span>: <span class="val">16px</span>;
+  <span class="kw">font-weight</span>: <span class="val">400</span>;
+  <span class="kw">font-style</span>: <span class="val">italic</span>;
+  <span class="kw">font-variant</span>: <span class="val">small-caps</span>;
+}
+<span class="kw">@font-face</span> {
+  <span class="kw">font-family</span>: <span class="val">'MojaCzcionka'</span>;
+  <span class="kw">src</span>: <span class="val">url('font.woff2')</span> format(<span class="str">'woff2'</span>);
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="lists-css">
+    <div class="section-header">
+      <div class="section-icon icon-css">≡</div>
+      <h2>Listy (CSS)</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="sel">ul</span> {
+  <span class="kw">list-style-type</span>: <span class="val">disc</span>;
+  <span class="kw">list-style-position</span>: <span class="val">inside</span>;
+  <span class="kw">list-style-image</span>: <span class="val">url('bullet.png')</span>;
+  <span class="kw">list-style</span>: <span class="val">square inside</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="display">
+    <div class="section-header">
+      <div class="section-icon icon-css">▦</div>
+      <h2>Display</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="demo-area">
+      <div class="disp-item">block</div>
+      <div class="disp-item" style="display:inline; background:rgba(232,160,32,.1);border-color:rgba(232,160,32,.3);color:#E8A020;">inline</div>
+      <div class="disp-item">inline-block</div>
+      <div class="disp-item" style="background:rgba(201,79,79,.1);border-color:rgba(201,79,79,.3);color:#C94F4F;">none</div>
+    </div>
+    <div class="code-block" style="margin-top:14px;">
+      <pre><span class="kw">display</span>: <span class="val">block</span>;
+<span class="kw">display</span>: <span class="val">inline</span>;
+<span class="kw">display</span>: <span class="val">inline-block</span>;
+<span class="kw">display</span>: <span class="val">none</span>;
+<span class="kw">display</span>: <span class="val">flex</span>;
+<span class="kw">display</span>: <span class="val">grid</span>;
+<span class="sel">.flex</span> {
+  <span class="kw">display</span>: <span class="val">flex</span>;
+  <span class="kw">flex-direction</span>: <span class="val">row</span>;
+  <span class="kw">justify-content</span>: <span class="val">center</span>;
+  <span class="kw">align-items</span>: <span class="val">center</span>;
+  <span class="kw">gap</span>: <span class="val">16px</span>;
+  <span class="kw">flex-wrap</span>: <span class="val">wrap</span>;
+}
+<span class="sel">.grid</span> {
+  <span class="kw">display</span>: <span class="val">grid</span>;
+  <span class="kw">grid-template-columns</span>: <span class="val">repeat(3, 1fr)</span>;
+  <span class="kw">grid-template-rows</span>: <span class="val">auto</span>;
+  <span class="kw">gap</span>: <span class="val">16px</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="position">
+    <div class="section-header">
+      <div class="section-icon icon-css">✛</div>
+      <h2>Pozycjonowanie</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="pos-demo">
+      <span class="pos-static">static</span>
+      <span class="pos-relative">relative</span>
+      <span class="pos-absolute">absolute</span>
+    </div>
+    <div class="code-block" style="margin-top:14px;">
+      <pre><span class="kw">position</span>: <span class="val">static</span>;
+<span class="kw">position</span>: <span class="val">relative</span>;
+<span class="kw">position</span>: <span class="val">absolute</span>;
+<span class="kw">position</span>: <span class="val">fixed</span>;
+<span class="kw">position</span>: <span class="val">sticky</span>;
+<span class="kw">top</span>: <span class="val">0</span>;  <span class="kw">right</span>: <span class="val">0</span>;  <span class="kw">bottom</span>: <span class="val">0</span>;  <span class="kw">left</span>: <span class="val">0</span>;
+<span class="kw">z-index</span>: <span class="val">10</span>;</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="other-css">
+    <div class="section-header">
+      <div class="section-icon icon-css">⊞</div>
+      <h2>Inne właściwości CSS</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3 class="teal">Overflow &amp; Visibility</h3>
+        <div class="code-block"><pre><span class="kw">overflow</span>: <span class="val">hidden</span>;
+<span class="kw">overflow-x</span>: <span class="val">auto</span>;
+<span class="kw">visibility</span>: <span class="val">hidden</span>;
+<span class="kw">cursor</span>: <span class="val">pointer</span>;</pre></div>
+      </div>
+      <div class="card">
+        <h3>Box Shadow &amp; Filter</h3>
+        <div class="code-block"><pre><span class="kw">box-shadow</span>: <span class="val">0 4px 16px rgba(0,0,0,.4)</span>;
+<span class="kw">filter</span>: <span class="val">blur(4px)</span>;
+<span class="kw">filter</span>: <span class="val">brightness(1.2)</span>;
+<span class="kw">filter</span>: <span class="val">grayscale(100%)</span>;
+<span class="kw">backdrop-filter</span>: <span class="val">blur(8px)</span>;</pre></div>
+      </div>
+      <div class="card">
+        <h3 class="red">Transform</h3>
+        <div class="code-block"><pre><span class="kw">transform</span>: <span class="val">translateX(20px)</span>;
+<span class="kw">transform</span>: <span class="val">rotate(45deg)</span>;
+<span class="kw">transform</span>: <span class="val">scale(1.2)</span>;
+<span class="kw">transform</span>: <span class="val">skewX(10deg)</span>;
+<span class="kw">transform</span>: <span class="val">rotate(30deg) scale(.8)</span>;</pre></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="selectors">
+    <div class="section-header">
+      <div class="section-icon icon-css">#</div>
+      <h2>Selektory w CSS</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <table class="ref-table">
+      <tr><th>Selektor</th><th>Opis</th></tr>
+      <tr><td>*</td><td>Wszystkie elementy</td></tr>
+      <tr><td>div</td><td>Elementy div</td></tr>
+      <tr><td>.klasa</td><td>Elementy z klasą</td></tr>
+      <tr><td>#id</td><td>Element o podanym ID</td></tr>
+      <tr><td>div p</td><td>Wszystkie p wewnątrz div (potomkowie)</td></tr>
+      <tr><td>div &gt; p</td><td>Bezpośrednie dzieci p w div</td></tr>
+      <tr><td>h1 + p</td><td>p bezpośrednio po h1 (adjacent)</td></tr>
+      <tr><td>h1 ~ p</td><td>Wszystkie p po h1 (siblings)</td></tr>
+      <tr><td>[attr]</td><td>Elementy z atrybutem</td></tr>
+      <tr><td>[attr="val"]</td><td>Atrybut = wartość</td></tr>
+      <tr><td>[attr^="v"]</td><td>Atrybut zaczyna się od v</td></tr>
+      <tr><td>[attr$="v"]</td><td>Atrybut kończy się na v</td></tr>
+      <tr><td>[attr*="v"]</td><td>Atrybut zawiera v</td></tr>
+      <tr><td>div, p</td><td>Lista selektorów (lub)</td></tr>
+    </table>
+  </section>
+
+  
+  <section class="section" id="pseudo">
+    <div class="section-header">
+      <div class="section-icon icon-css">:</div>
+      <h2>Pseudo klasy i elementy</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Pseudo klasy (:)</h3>
+        <ul class="pseudo-list" style="padding-left:14px;">
+          <li>:first-child — pierwsze dziecko</li>
+          <li>:last-child — ostatnie dziecko</li>
+          <li>:nth-child(n) — n-te dziecko</li>
+          <li>:hover — po najechaniu</li>
+          <li>:focus — po skupieniu</li>
+          <li>:active — podczas klikania</li>
+          <li>:visited — odwiedzone linki</li>
+          <li>:not(sel) — negacja</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="teal">Pseudo elementy (::)</h3>
+        <div class="code-block"><pre><span class="sel">p::before</span> {
+  <span class="kw">content</span>: <span class="val">'»'</span>;
+  <span class="kw">color</span>: <span class="val">#E8A020</span>;
+}
+<span class="sel">p::after</span> {
+  <span class="kw">content</span>: <span class="val">''</span>;
+}
+<span class="sel">p::first-line</span>  { <span class="kw">font-weight</span>: <span class="val">bold</span>; }
+<span class="sel">p::first-letter</span>{ <span class="kw">font-size</span>: <span class="val">2em</span>; }
+<span class="sel">::selection</span>    { <span class="kw">background</span>: <span class="val">#E8A020</span>; }</pre></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="nav-css">
+    <div class="section-header">
+      <div class="section-icon icon-css">⊟</div>
+      <h2>Nawigacja</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="code-block">
+      <pre>
+<span class="sel">nav ul</span> {
+  <span class="kw">list-style</span>: <span class="val">none</span>;
+  <span class="kw">display</span>: <span class="val">flex</span>;
+  <span class="kw">gap</span>: <span class="val">8px</span>;
+  <span class="kw">padding</span>: <span class="val">0</span>;
+}
+<span class="sel">nav a</span> {
+  <span class="kw">text-decoration</span>: <span class="val">none</span>;
+  <span class="kw">padding</span>: <span class="val">8px 16px</span>;
+  <span class="kw">border-radius</span>: <span class="val">4px</span>;
+  <span class="kw">transition</span>: <span class="val">background .2s</span>;
+}
+<span class="sel">nav a:hover</span> {
+  <span class="kw">background</span>: <span class="val">rgba(255,255,255,.1)</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="animations">
+    <div class="section-header">
+      <div class="section-icon icon-css">✦</div>
+      <h2>Animacje</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="demo-area">
+      <div class="anim-demos">
+        <div class="anim-wrap">
+          <div class="anim-box a-spin">spin</div>
+          <div class="anim-label">rotate 360°</div>
+        </div>
+        <div class="anim-wrap">
+          <div class="anim-box a-pulse">pulse</div>
+          <div class="anim-label">scale + opacity</div>
+        </div>
+        <div class="anim-wrap">
+          <div class="anim-box a-bounce">↑↓</div>
+          <div class="anim-label">bounce</div>
+        </div>
+        <div class="anim-wrap">
+          <div class="slide-track"><div class="slide-ball"></div></div>
+          <div class="anim-label">translateX</div>
+        </div>
+      </div>
+    </div>
+    <div class="code-block" style="margin-top:14px;">
+      <pre><span class="kw">@keyframes</span> <span class="sel">spin</span> {
+  <span class="kw">from</span> { <span class="kw">transform</span>: <span class="val">rotate(0deg)</span>; }
+  <span class="kw">to</span>   { <span class="kw">transform</span>: <span class="val">rotate(360deg)</span>; }
+}
+
+<span class="sel">.icon</span> {
+  <span class="kw">animation</span>: <span class="val">spin 2s linear infinite</span>;
+}
+<span class="sel">.btn</span> {
+  <span class="kw">transition</span>: <span class="val">all .3s ease</span>;
+}
+<span class="sel">.btn:hover</span> {
+  <span class="kw">transform</span>: <span class="val">scale(1.05)</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="responsive">
+    <div class="section-header">
+      <div class="section-icon icon-css">⊡</div>
+      <h2>Responsywność</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="code-block">
+      <pre>
+<span class="sel">.container</span> {
+  <span class="kw">width</span>: <span class="val">100%</span>;
+  <span class="kw">padding</span>: <span class="val">0 16px</span>;
+}
+
+<span class="kw">@media</span> (<span class="kw">min-width</span>: <span class="val">640px</span>) {
+  <span class="sel">.container</span> { <span class="kw">max-width</span>: <span class="val">600px</span>; <span class="kw">margin</span>: <span class="val">0 auto</span>; }
+}
+
+<span class="kw">@media</span> (<span class="kw">min-width</span>: <span class="val">1024px</span>) {
+  <span class="sel">.container</span> { <span class="kw">max-width</span>: <span class="val">960px</span>; }
+}
+<span class="kw">@media</span> (<span class="kw">max-width</span>: <span class="val">639px</span>) {
+  <span class="sel">.desktop-only</span> { <span class="kw">display</span>: <span class="val">none</span>; }
+}
+<span class="kw">@media</span> (<span class="kw">orientation</span>: <span class="val">landscape</span>) { … }</pre>
+    </div>
+    <div class="note"><strong>Tip:</strong> zawsze dodaj <code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code> w &lt;head&gt;.</div>
+  </section>
+
+  
+  <section class="section" id="gradients">
+    <div class="section-header">
+      <div class="section-icon icon-css">∿</div>
+      <h2>Gradienty</h2>
+      <span class="section-tag">CSS</span>
+    </div>
+    <div class="grad-demos">
+      <div>
+        <div class="grad-swatch" style="background:linear-gradient(135deg,#E8A020,#C94F4F)"></div>
+        <div class="grad-label">linear-gradient</div>
+      </div>
+      <div>
+        <div class="grad-swatch" style="background:radial-gradient(circle,#4BB8A0,#0F0F0E)"></div>
+        <div class="grad-label">radial-gradient</div>
+      </div>
+      <div>
+        <div class="grad-swatch" style="background:conic-gradient(#E8A020,#4BB8A0,#C94F4F,#E8A020)"></div>
+        <div class="grad-label">conic-gradient</div>
+      </div>
+      <div>
+        <div class="grad-swatch" style="background:linear-gradient(to right,#0F0F0E 0%,#4BB8A0 50%,#E8A020 100%)"></div>
+        <div class="grad-label">multi-stop</div>
+      </div>
+    </div>
+    <div class="code-block">
+      <pre><span class="kw">background</span>: <span class="val">linear-gradient(135deg, #E8A020, #C94F4F)</span>;
+<span class="kw">background</span>: <span class="val">radial-gradient(circle at 30% 50%, #4BB8A0, #0F0F0E)</span>;
+<span class="kw">background</span>: <span class="val">conic-gradient(#E8A020 0deg, #4BB8A0 180deg, #C94F4F 360deg)</span>;
+<span class="sel">.gradient-text</span> {
+  <span class="kw">background</span>: <span class="val">linear-gradient(90deg, #E8A020, #4BB8A0)</span>;
+  <span class="kw">-webkit-background-clip</span>: <span class="val">text</span>;
+  <span class="kw">-webkit-text-fill-color</span>: <span class="val">transparent</span>;
+}</pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="html-basics">
+    <div class="section-header">
+      <div class="section-icon icon-html">‹›</div>
+      <h2>Podstawy HTML</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;!DOCTYPE html&gt;</span>
+<span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="str">"pl"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;title&gt;</span>Tytuł strony<span class="tag">&lt;/title&gt;</span>
+  <span class="tag">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"style.css"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+<span class="tag">&lt;body&gt;</span>
+  <span class="cmt">treść strony</span>
+<span class="tag">&lt;/body&gt;</span>
+<span class="tag">&lt;/html&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="headings">
+    <div class="section-header">
+      <div class="section-icon icon-html">H</div>
+      <h2>Nagłówki</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="demo-area">
+      <p style="color:var(--heading);font-size:26px;font-family:var(--font-disp);margin-bottom:4px;">h1 — Tytuł strony</p>
+      <p style="color:var(--heading);font-size:21px;font-family:var(--font-disp);margin-bottom:4px;">h2 — Sekcja</p>
+      <p style="color:var(--heading);font-size:17px;font-family:var(--font-disp);margin-bottom:4px;">h3 — Podsekcja</p>
+      <p style="color:var(--body);font-size:14px;font-family:var(--font-disp);margin-bottom:4px;">h4 — Niższy poziom</p>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:4px;">h5 — jeszcze niższy</p>
+      <p style="color:var(--muted);font-size:12px;">h6 — najniższy</p>
+    </div>
+    <div class="code-block" style="margin-top:12px;">
+      <pre><span class="tag">&lt;h1&gt;</span>Tytuł strony<span class="tag">&lt;/h1&gt;</span>
+<span class="tag">&lt;h2&gt;</span>Nagłówek sekcji<span class="tag">&lt;/h2&gt;</span>
+<span class="tag">&lt;h3&gt;</span>Podsekcja<span class="tag">&lt;/h3&gt;</span>
+<span class="tag">&lt;h4&gt;</span> … <span class="tag">&lt;/h4&gt;</span>
+<span class="tag">&lt;h5&gt;</span> … <span class="tag">&lt;/h5&gt;</span>
+<span class="tag">&lt;h6&gt;</span> … <span class="tag">&lt;/h6&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="img-anchor">
+    <div class="section-header">
+      <div class="section-icon icon-html">⌘</div>
+      <h2>Zdjęcia i Kotwice</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="cmt">Obrazek</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"zdjecie.jpg"</span>
+     <span class="attr">alt</span>=<span class="str">"Opis alternatywny"</span>
+     <span class="attr">width</span>=<span class="str">"400"</span> <span class="attr">height</span>=<span class="str">"300"</span>
+     <span class="attr">loading</span>=<span class="str">"lazy"</span><span class="tag">&gt;</span>
+
+<span class="cmt">Hiperłącze</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"https://example.com"</span>
+   <span class="attr">target</span>=<span class="str">"_blank"</span>
+   <span class="attr">rel</span>=<span class="str">"noopener noreferrer"</span><span class="tag">&gt;</span>
+  Otwórz link
+<span class="tag">&lt;/a&gt;</span>
+
+<span class="cmt">Kotwica —&gt; przewija do sekcji</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"#sekcja"</span><span class="tag">&gt;</span>Przejdź dalej<span class="tag">&lt;/a&gt;</span>
+<span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="str">"sekcja"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/section&gt;</span>
+
+<span class="cmt">Obraz jako link</span>
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"..."</span><span class="tag">&gt;&lt;img</span> <span class="attr">src</span>=<span class="str">"..."</span> <span class="attr">alt</span>=<span class="str">"..."</span><span class="tag">&gt;&lt;/a&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="text-transform">
+    <div class="section-header">
+      <div class="section-icon icon-html">Aa</div>
+      <h2>Przekształcenia tekstu</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Znaczniki semantyczne</h3>
+        <div class="code-block"><pre><span class="tag">&lt;strong&gt;</span>pogrubiony<span class="tag">&lt;/strong&gt;</span>   <span class="cmt">bold+semantic</span>
+<span class="tag">&lt;em&gt;</span>pochylony<span class="tag">&lt;/em&gt;</span>        <span class="cmt">italic+semantic</span>
+<span class="tag">&lt;mark&gt;</span>zaznaczony<span class="tag">&lt;/mark&gt;</span>    <span class="cmt">highlight</span>
+<span class="tag">&lt;del&gt;</span>skreślony<span class="tag">&lt;/del&gt;</span>      <span class="cmt">strike</span>
+<span class="tag">&lt;ins&gt;</span>dodany<span class="tag">&lt;/ins&gt;</span>          <span class="cmt">underline</span>
+<span class="tag">&lt;sub&gt;</span>dolny<span class="tag">&lt;/sub&gt;</span>
+<span class="tag">&lt;sup&gt;</span>górny<span class="tag">&lt;/sup&gt;</span>
+<span class="tag">&lt;small&gt;</span>mały tekst<span class="tag">&lt;/small&gt;</span>
+<span class="tag">&lt;abbr</span> <span class="attr">title</span>=<span class="str">"..."</span><span class="tag">&gt;</span>skrót<span class="tag">&lt;/abbr&gt;</span></pre></div>
+      </div>
+      <div class="card">
+        <h3 class="teal">Demo wyglądu</h3>
+        <div class="demo-area" style="font-size:13px;display:flex;flex-direction:column;gap:6px;">
+          <span><strong>strong</strong> — pogrubiony (semantyczny)</span>
+          <span><em>em</em> — pochylony (semantyczny)</span>
+          <span><mark style="background:#E8A02033;color:#E8A020;padding:0 3px;">mark</mark> — zaznaczony</span>
+          <span><del>del</del> — skreślony</span>
+          <span>H<sub>2</sub>O — sub; x<sup>2</sup> — sup</span>
+          <span><small>small — mały tekst</small></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="quotes">
+    <div class="section-header">
+      <div class="section-icon icon-html">"</div>
+      <h2>Cytaty</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="cmt">Długi cytat blokowy</span>
+<span class="tag">&lt;blockquote</span> <span class="attr">cite</span>=<span class="str">"https://example.com"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;p&gt;</span>Treść cytatu…<span class="tag">&lt;/p&gt;</span>
+  <span class="tag">&lt;footer&gt;</span>— Autor, <span class="tag">&lt;cite&gt;</span>Tytuł dzieła<span class="tag">&lt;/cite&gt;&lt;/footer&gt;</span>
+<span class="tag">&lt;/blockquote&gt;</span>
+
+<span class="cmt">Krótki cytat inline</span>
+<span class="tag">&lt;p&gt;</span>Powiedział: <span class="tag">&lt;q&gt;</span>Krótki cytat<span class="tag">&lt;/q&gt;&lt;/p&gt;</span></pre>
+    </div>
+    <div class="demo-area">
+      <blockquote style="border-left:3px solid var(--accent1);padding:10px 16px;font-style:italic;color:var(--body);">
+        <p>„Nauka CSS to jak odkrywanie nowego języka — na początku trudna, potem intuicyjna."</p>
+        <footer style="font-size:11px;color:var(--muted);margin-top:6px;">— Nieznany deweloper, <cite>Frontend Notes</cite></footer>
+      </blockquote>
+    </div>
+  </section>
+
+  
+  <section class="section" id="tables">
+    <div class="section-header">
+      <div class="section-icon icon-html">⊞</div>
+      <h2>Tabele</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;table&gt;</span>
+  <span class="tag">&lt;thead&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;th</span> <span class="attr">scope</span>=<span class="str">"col"</span><span class="tag">&gt;</span>Imię<span class="tag">&lt;/th&gt;</span>
+      <span class="tag">&lt;th</span> <span class="attr">scope</span>=<span class="str">"col"</span><span class="tag">&gt;</span>Ocena<span class="tag">&lt;/th&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/thead&gt;</span>
+  <span class="tag">&lt;tbody&gt;</span>
+    <span class="tag">&lt;tr&gt;</span>
+      <span class="tag">&lt;td&gt;</span>Anna<span class="tag">&lt;/td&gt;</span>
+      <span class="tag">&lt;td</span> <span class="attr">colspan</span>=<span class="str">"2"</span><span class="tag">&gt;</span>5<span class="tag">&lt;/td&gt;</span>
+    <span class="tag">&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tbody&gt;</span>
+  <span class="tag">&lt;tfoot&gt;</span>
+    <span class="tag">&lt;tr&gt;&lt;td</span> <span class="attr">colspan</span>=<span class="str">"2"</span><span class="tag">&gt;</span>Suma<span class="tag">&lt;/td&gt;&lt;/tr&gt;</span>
+  <span class="tag">&lt;/tfoot&gt;</span>
+<span class="tag">&lt;/table&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="lists-html">
+    <div class="section-header">
+      <div class="section-icon icon-html">•</div>
+      <h2>Listy</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="cmt">Nieuporządkowana</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Element A<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Element B<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span>
+
+<span class="cmt">Uporządkowana</span>
+<span class="tag">&lt;ol</span> <span class="attr">type</span>=<span class="str">"1"</span> <span class="attr">start</span>=<span class="str">"1"</span><span class="tag">&gt;</span>  <span class="cmt">type: 1 A a I i</span>
+  <span class="tag">&lt;li&gt;</span>Krok 1<span class="tag">&lt;/li&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Krok 2<span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ol&gt;</span>
+
+<span class="cmt">Zagnieżdżona</span>
+<span class="tag">&lt;ul&gt;</span>
+  <span class="tag">&lt;li&gt;</span>Rodzic
+    <span class="tag">&lt;ul&gt;&lt;li&gt;</span>Dziecko<span class="tag">&lt;/li&gt;&lt;/ul&gt;</span>
+  <span class="tag">&lt;/li&gt;</span>
+<span class="tag">&lt;/ul&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="definitions">
+    <div class="section-header">
+      <div class="section-icon icon-html">Δ</div>
+      <h2>Definicje</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;dl&gt;</span>
+  <span class="tag">&lt;dt&gt;</span>CSS<span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span>Cascading Style Sheets — arkusze stylów.<span class="tag">&lt;/dd&gt;</span>
+
+  <span class="tag">&lt;dt&gt;</span>HTML<span class="tag">&lt;/dt&gt;</span>
+  <span class="tag">&lt;dd&gt;</span>HyperText Markup Language — język znaczników.<span class="tag">&lt;/dd&gt;</span>
+<span class="tag">&lt;/dl&gt;</span></pre>
+    </div>
+    <div class="demo-area">
+      <dl style="font-size:13px;">
+        <dt style="color:var(--accent1);font-weight:600;margin-top:8px;">CSS</dt>
+        <dd style="color:var(--body);margin-left:16px;margin-top:2px;">Cascading Style Sheets — język arkuszy stylów.</dd>
+        <dt style="color:var(--accent1);font-weight:600;margin-top:8px;">HTML</dt>
+        <dd style="color:var(--body);margin-left:16px;margin-top:2px;">HyperText Markup Language — język znaczników.</dd>
+      </dl>
+    </div>
+  </section>
+
+  
+  <section class="section" id="div">
+    <div class="section-header">
+      <div class="section-icon icon-html">[ ]</div>
+      <h2>Div</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <p><code>&lt;div&gt;</code> to generyczny kontener blokowy — brak znaczenia semantycznego, używany do grupowania i stylowania.</p>
+    <div class="code-block">
+      <pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"container"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"header"</span><span class="tag">&gt;</span>Nagłówek<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"content"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"sidebar"</span><span class="tag">&gt;</span>Boczny<span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"main"</span><span class="tag">&gt;</span>Główna treść<span class="tag">&lt;/div&gt;</span>
+  <span class="tag">&lt;/div&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="span">
+    <div class="section-header">
+      <div class="section-icon icon-html">〈〉</div>
+      <h2>Span</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <p><code>&lt;span&gt;</code> to generyczny kontener <strong style="color:var(--accent2);">inline</strong> — do stylowania fragmentów tekstu bez łamania linii.</p>
+    <div class="code-block">
+      <pre><span class="tag">&lt;p&gt;</span>
+  Oto tekst z
+  <span class="tag">&lt;span</span> <span class="attr">style</span>=<span class="str">"color:#E8A020;font-weight:600"</span><span class="tag">&gt;</span>
+    wyróżnionym fragmentem
+  <span class="tag">&lt;/span&gt;</span>
+  wewnątrz akapitu.
+<span class="tag">&lt;/p&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="classes-id">
+    <div class="section-header">
+      <div class="section-icon icon-html">.#</div>
+      <h2>Klasy i ID</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>class</h3>
+        <p>Może być użyta wiele razy. Selektor CSS: <code>.nazwa</code></p>
+        <div class="code-block"><pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="str">"box active"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/div&gt;</span>
+<span class="sel">.box</span>        { … }
+<span class="sel">.box.active</span> { … }</pre></div>
+      </div>
+      <div class="card">
+        <h3 class="teal">id</h3>
+        <p>Unikalne na stronie. Selektor CSS: <code>#nazwa</code></p>
+        <div class="code-block"><pre><span class="tag">&lt;section</span> <span class="attr">id</span>=<span class="str">"hero"</span><span class="tag">&gt;</span>…<span class="tag">&lt;/section&gt;</span>
+<span class="sel">#hero</span> { … }
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="str">"#hero"</span><span class="tag">&gt;</span>Do Hero<span class="tag">&lt;/a&gt;</span></pre></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="layout">
+    <div class="section-header">
+      <div class="section-icon icon-html">⊟</div>
+      <h2>Układ strony — znaczniki semantyczne</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;header&gt;</span>  Nagłówek strony / sekcji     <span class="tag">&lt;/header&gt;</span>
+<span class="tag">&lt;nav&gt;</span>     Nawigacja                     <span class="tag">&lt;/nav&gt;</span>
+<span class="tag">&lt;main&gt;</span>    Główna treść (1 na stronę)    <span class="tag">&lt;/main&gt;</span>
+<span class="tag">&lt;aside&gt;</span>   Boczny pasek / sidebar        <span class="tag">&lt;/aside&gt;</span>
+<span class="tag">&lt;article&gt;</span> Samodzielna treść (post)      <span class="tag">&lt;/article&gt;</span>
+<span class="tag">&lt;section&gt;</span> Tematyczna sekcja             <span class="tag">&lt;/section&gt;</span>
+<span class="tag">&lt;footer&gt;</span>  Stopka strony / sekcji        <span class="tag">&lt;/footer&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="figcaption">
+    <div class="section-header">
+      <div class="section-icon icon-html">⎘</div>
+      <h2>Figure &amp; Figcaption</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;figure&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"diagram.png"</span> <span class="attr">alt</span>=<span class="str">"Schemat"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;figcaption&gt;</span>Rys. 1 — Schemat architektury<span class="tag">&lt;/figcaption&gt;</span>
+<span class="tag">&lt;/figure&gt;</span></pre>
+    </div>
+    <div class="demo-area">
+      <figure style="display:inline-block;margin:0;">
+        <svg width="120" height="70" viewBox="0 0 120 70" style="display:block;border-radius:4px;background:rgba(255,255,255,.03);">
+          <rect x="20" y="15" width="80" height="40" rx="6" fill="none" stroke="#4BB8A0" stroke-width="2"/>
+          <text x="60" y="40" text-anchor="middle" font-size="11" fill="#4BB8A0" font-family="monospace">img</text>
+        </svg>
+        <figcaption style="font-size:11px;color:var(--muted);margin-top:6px;text-align:center;">Rys. 1 — Przykładowy rysunek</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  
+  <section class="section" id="entities">
+    <div class="section-header">
+      <div class="section-icon icon-html">&amp;</div>
+      <h2>Znaczniki i Znaki specjalne</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <table class="ref-table">
+      <tr><th>Encja</th><th>Wynik</th><th>Opis</th></tr>
+      <tr><td>&amp;amp;</td><td>&amp;</td><td>Ampersand</td></tr>
+      <tr><td>&amp;lt;</td><td>&lt;</td><td>Mniejszy niż</td></tr>
+      <tr><td>&amp;gt;</td><td>&gt;</td><td>Większy niż</td></tr>
+      <tr><td>&amp;quot;</td><td>"</td><td>Cudzysłów</td></tr>
+      <tr><td>&amp;apos;</td><td>'</td><td>Apostrof</td></tr>
+      <tr><td>&amp;nbsp;</td><td>(spacja)</td><td>Niełamliwa spacja</td></tr>
+      <tr><td>&amp;copy;</td><td>©</td><td>Copyright</td></tr>
+      <tr><td>&amp;reg;</td><td>®</td><td>Registered</td></tr>
+      <tr><td>&amp;euro;</td><td>€</td><td>Euro</td></tr>
+      <tr><td>&amp;mdash;</td><td>—</td><td>Myślnik em</td></tr>
+      <tr><td>&amp;hellip;</td><td>…</td><td>Wielokropek</td></tr>
+    </table>
+  </section>
+
+  
+  <section class="section" id="style-tag">
+    <div class="section-header">
+      <div class="section-icon icon-html">⬡</div>
+      <h2>Style — znacznik &lt;style&gt;</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="code-block">
+      <pre><span class="tag">&lt;head&gt;</span>
+  <span class="tag">&lt;style&gt;</span>
+    <span class="sel">body</span> { <span class="kw">font-family</span>: <span class="val">sans-serif</span>; }
+    <span class="sel">.highlight</span> {
+      <span class="kw">background</span>: <span class="val">yellow</span>;
+      <span class="kw">color</span>: <span class="val">black</span>;
+    }
+  <span class="tag">&lt;/style&gt;</span>
+<span class="tag">&lt;/head&gt;</span>
+
+<span class="cmt">Inline style</span>
+<span class="tag">&lt;p</span> <span class="attr">style</span>=<span class="str">"color:red; font-size:18px"</span><span class="tag">&gt;</span>Tekst<span class="tag">&lt;/p&gt;</span></pre>
+    </div>
+  </section>
+
+  
+  <section class="section" id="inputs">
+    <div class="section-header">
+      <div class="section-icon icon-html">▭</div>
+      <h2>Inputy</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <h3>Typy pól</h3>
+        <div class="input-demo">
+          <label>text</label>
+          <input type="text" placeholder="Wpisz tekst…">
+          <label>email</label>
+          <input type="email" placeholder="user@example.com">
+          <label>number</label>
+          <input type="number" placeholder="0" min="0" max="100">
+          <label>select</label>
+          <select><option>Opcja A</option><option>Opcja B</option></select>
+          <label>textarea</label>
+          <textarea rows="3" placeholder="Dłuższy tekst…"></textarea>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="teal">Kod</h3>
+        <div class="code-block"><pre><span class="tag">&lt;form</span> <span class="attr">action</span>=<span class="str">"/submit"</span> <span class="attr">method</span>=<span class="str">"post"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="str">"name"</span><span class="tag">&gt;</span>Imię<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"text"</span>
+         <span class="attr">id</span>=<span class="str">"name"</span>
+         <span class="attr">name</span>=<span class="str">"name"</span>
+         <span class="attr">required</span><span class="tag">&gt;</span>
+
+  <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="str">"checkbox"</span>
+         <span class="attr">id</span>=<span class="str">"agree"</span>
+         <span class="attr">name</span>=<span class="str">"agree"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="str">"agree"</span><span class="tag">&gt;</span>Zgadzam się<span class="tag">&lt;/label&gt;</span>
+
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="str">"submit"</span><span class="tag">&gt;</span>Wyślij<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre></div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="section" id="image-maps">
+    <div class="section-header">
+      <div class="section-icon icon-html">◫</div>
+      <h2>Mapy odsyłaczy</h2>
+      <span class="section-tag">HTML</span>
+    </div>
+    <p>Mapy odsyłaczy pozwalają definiować klikalny obszar na obrazie poprzez znacznik <code>&lt;map&gt;</code> i <code>&lt;area&gt;</code>.</p>
+    <div class="code-block">
+      <pre><span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="str">"mapa.jpg"</span> <span class="attr">alt</span>=<span class="str">"Mapa"</span>
+     <span class="attr">usemap</span>=<span class="str">"#przykladowa-mapa"</span>
+     <span class="attr">width</span>=<span class="str">"400"</span> <span class="attr">height</span>=<span class="str">"300"</span><span class="tag">&gt;</span>
+
+<span class="tag">&lt;map</span> <span class="attr">name</span>=<span class="str">"przykladowa-mapa"</span><span class="tag">&gt;</span>
+  <span class="cmt">Prostokąt</span>
+  <span class="tag">&lt;area</span> <span class="attr">shape</span>=<span class="str">"rect"</span>
+        <span class="attr">coords</span>=<span class="str">"10,10,100,80"</span>
+        <span class="attr">href</span>=<span class="str">"strona1.html"</span>
+        <span class="attr">alt</span>=<span class="str">"Obszar 1"</span><span class="tag">&gt;</span>
+
+  <span class="cmt">Koło</span>
+  <span class="tag">&lt;area</span> <span class="attr">shape</span>=<span class="str">"circle"</span>
+        <span class="attr">coords</span>=<span class="str">"200,150,50"</span>  <span class="cmt">cx,cy,r</span>
+        <span class="attr">href</span>=<span class="str">"strona2.html"</span>
+        <span class="attr">alt</span>=<span class="str">"Obszar 2"</span><span class="tag">&gt;</span>
+
+  <span class="cmt">Wielokąt</span>
+  <span class="tag">&lt;area</span> <span class="attr">shape</span>=<span class="str">"poly"</span>
+        <span class="attr">coords</span>=<span class="str">"300,10, 390,80, 350,150"</span>
+        <span class="attr">href</span>=<span class="str">"strona3.html"</span>
+        <span class="attr">alt</span>=<span class="str">"Obszar 3"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/map&gt;</span></pre>
+    </div>
+    <div class="demo-area">
+      <svg width="320" height="140" viewBox="0 0 320 140" xmlns="http://www.w3.org/2000/svg" style="display:block;">
+        <rect x="0" y="0" width="320" height="140" fill="rgba(255,255,255,.02)" rx="4"/>
+        
+        <rect x="10" y="10" width="90" height="70" fill="rgba(232,160,32,.15)" stroke="#E8A020" stroke-width="1.5" stroke-dasharray="4 2" rx="3"/>
+        <text x="55" y="50" text-anchor="middle" font-size="9" fill="#E8A020" font-family="monospace">rect</text>
+        
+        <circle cx="180" cy="75" r="50" fill="rgba(75,184,160,.12)" stroke="#4BB8A0" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="180" y="79" text-anchor="middle" font-size="9" fill="#4BB8A0" font-family="monospace">circle</text>
+        
+        <polygon points="250,10 315,75 250,120" fill="rgba(201,79,79,.12)" stroke="#C94F4F" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <text x="275" y="72" text-anchor="middle" font-size="9" fill="#C94F4F" font-family="monospace">poly</text>
+      </svg>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebar-overlay').classList.toggle('open');
+  }
+
+  
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const id = entry.target.id;
+        const link = document.querySelector(`nav a[href="#${id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
